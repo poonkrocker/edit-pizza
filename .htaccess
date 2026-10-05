@@ -2,6 +2,7 @@
 
 # La raíz del subdominio abre el editor de pizzas (ya protegido por el login).
 DirectoryIndex index.php
+AddDefaultCharset UTF-8
 
 # Por si quedaron enlaces/favoritos a las URLs viejas .html, los mandamos a .php.
 <IfModule mod_rewrite.c>

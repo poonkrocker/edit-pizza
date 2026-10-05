@@ -26,6 +26,7 @@ session_set_cookie_params([
     'samesite' => 'Lax',
 ]);
 session_start();
+@header('Content-Type: text/html; charset=utf-8');
 require_once 'db_connect.php';
 
 // Si ya hay sesión iniciada, ir directo al panel.

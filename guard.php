@@ -22,6 +22,7 @@
     'samesite' => 'Lax',
 ]);
 @session_start();
+@header('Content-Type: text/html; charset=utf-8');
 
 if (empty($_SESSION['admin_id'])) {
     header('Location: login.php');

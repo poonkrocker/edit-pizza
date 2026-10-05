@@ -39,7 +39,7 @@
                         },
                         {
                             "id":  "morron",
-                            "name":  "MorrÃ³n",
+                            "name":  "Morrón",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -63,7 +63,7 @@
                         {
                             "id":  "perejil",
                             "name":  "Perejil",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -80,7 +80,7 @@
                         },
                         {
                             "id":  "esparrago",
-                            "name":  "EspÃ¡rrago",
+                            "name":  "Espárrago",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -218,7 +218,7 @@
                         },
                         {
                             "id":  "brocoli",
-                            "name":  "BrÃ³coli",
+                            "name":  "Brócoli",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -264,7 +264,7 @@
                         },
                         {
                             "id":  "aji-picante",
-                            "name":  "AjÃ­ picante",
+                            "name":  "Ají picante",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -564,7 +564,7 @@
                         },
                         {
                             "id":  "jamon",
-                            "name":  "JamÃ³n",
+                            "name":  "Jamón",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -712,7 +712,7 @@
                         },
                         {
                             "id":  "camaron",
-                            "name":  "CamarÃ³n",
+                            "name":  "Camarón",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -782,7 +782,7 @@
                         {
                             "id":  "albahaca",
                             "name":  "Albahaca",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -799,7 +799,7 @@
                         },
                         {
                             "id":  "salmon",
-                            "name":  "SalmÃ³n",
+                            "name":  "Salmón",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -863,7 +863,7 @@
                         },
                         {
                             "id":  "mejillon",
-                            "name":  "MejillÃ³n",
+                            "name":  "Mejillón",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -923,7 +923,7 @@
                         {
                             "id":  "salvia",
                             "name":  "Salvia",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1009,7 +1009,7 @@
                         },
                         {
                             "id":  "banana",
-                            "name":  "PlÃ¡tano verde",
+                            "name":  "Plátano verde",
                             "cat":  "Frutas",
                             "scale":  1,
                             "states":  {
@@ -1032,7 +1032,7 @@
                         },
                         {
                             "id":  "limon",
-                            "name":  "LimÃ³n",
+                            "name":  "Limón",
                             "cat":  "Frutas",
                             "scale":  1,
                             "states":  {
@@ -1056,7 +1056,7 @@
                         {
                             "id":  "jengibre",
                             "name":  "Jengibre",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1073,8 +1073,8 @@
                         },
                         {
                             "id":  "oregano",
-                            "name":  "OrÃ©gano",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "name":  "Orégano",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1091,7 +1091,7 @@
                         },
                         {
                             "id":  "anana",
-                            "name":  "AnanÃ¡",
+                            "name":  "Ananá",
                             "cat":  "Frutas",
                             "scale":  1,
                             "states":  {
@@ -1192,7 +1192,7 @@
                         {
                             "id":  "huevo",
                             "name":  "Huevo",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1210,7 +1210,7 @@
                         {
                             "id":  "provolone",
                             "name":  "Provolone",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1.2,
                             "states":  {
                                            "entero":  {
@@ -1233,7 +1233,7 @@
                         {
                             "id":  "muzzarella",
                             "name":  "Muzzarella",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1257,7 +1257,7 @@
                         {
                             "id":  "queso-ahumado",
                             "name":  "Queso ahumado",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1280,7 +1280,7 @@
                         {
                             "id":  "queso-azul",
                             "name":  "Queso azul",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1303,7 +1303,7 @@
                         {
                             "id":  "parmesano",
                             "name":  "Parmesano",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1325,7 +1325,7 @@
                         },
                         {
                             "id":  "salame-milan",
-                            "name":  "Salame MilÃ¡n",
+                            "name":  "Salame Milán",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1.9,
                             "states":  {
@@ -1398,7 +1398,7 @@
                         },
                         {
                             "id":  "zest-de-limon",
-                            "name":  "Zest de limÃ³n",
+                            "name":  "Zest de limón",
                             "cat":  "Frutas",
                             "scale":  1,
                             "states":  {
@@ -1411,7 +1411,7 @@
                         },
                         {
                             "id":  "morron-horneado",
-                            "name":  "MorrÃ³n horneado",
+                            "name":  "Morrón horneado",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -1518,7 +1518,7 @@
                         {
                             "id":  "queso-fundido",
                             "name":  "Queso raclette fundido",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1590,7 +1590,7 @@
                         {
                             "id":  "ricota",
                             "name":  "Ricota",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1614,7 +1614,7 @@
                         {
                             "id":  "camembert",
                             "name":  "Camembert",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1636,7 +1636,7 @@
                         },
                         {
                             "id":  "petalos",
-                            "name":  "PÃ©talos comestibles",
+                            "name":  "Pétalos comestibles",
                             "cat":  "Otros",
                             "scale":  1,
                             "states":  {
@@ -1798,7 +1798,7 @@
                         {
                             "id":  "bocconcini",
                             "name":  "Bocconcini",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  0.8,
                             "states":  {
                                            "entero":  {
@@ -1822,7 +1822,7 @@
                         {
                             "id":  "burrata",
                             "name":  "Burrata",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1.5,
                             "states":  {
                                            "entero":  {
@@ -1847,7 +1847,7 @@
                         {
                             "id":  "cilantro",
                             "name":  "Cilantro",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1869,7 +1869,7 @@
                         },
                         {
                             "id":  "pinones",
-                            "name":  "PiÃ±ones",
+                            "name":  "Piñones",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -1889,7 +1889,7 @@
                         {
                             "id":  "merken",
                             "name":  "Merken",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -1978,7 +1978,7 @@
                         },
                         {
                             "id":  "albondiga",
-                            "name":  "AlbÃ³ndiga",
+                            "name":  "Albóndiga",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -2027,7 +2027,7 @@
                         },
                         {
                             "id":  "corazon-alcaucil",
-                            "name":  "CorazÃ³n de alcaucil",
+                            "name":  "Corazón de alcaucil",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -2099,7 +2099,7 @@
                         },
                         {
                             "id":  "castanas-caju",
-                            "name":  "CastaÃ±as de cajÃº",
+                            "name":  "Castañas de cajú",
                             "cat":  "Otros",
                             "scale":  1,
                             "states":  {
@@ -2118,7 +2118,7 @@
                         {
                             "id":  "brie",
                             "name":  "Brie",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2136,7 +2136,7 @@
                         {
                             "id":  "cheddar",
                             "name":  "Cheddar",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2154,7 +2154,7 @@
                         {
                             "id":  "huevo-revuelto",
                             "name":  "Huevo revuelto",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2171,7 +2171,7 @@
                         },
                         {
                             "id":  "limon-asado",
-                            "name":  "LimÃ³n asado",
+                            "name":  "Limón asado",
                             "cat":  "Frutas",
                             "scale":  1,
                             "states":  {
@@ -2185,7 +2185,7 @@
                         {
                             "id":  "huevo-frito",
                             "name":  "Huevo frito",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2203,7 +2203,7 @@
                         },
                         {
                             "id":  "rucula",
-                            "name":  "RÃºcula",
+                            "name":  "Rúcula",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -2222,7 +2222,7 @@
                         {
                             "id":  "queso-crema",
                             "name":  "Queso crema",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2257,7 +2257,7 @@
                         },
                         {
                             "id":  "melon",
-                            "name":  "MelÃ³n",
+                            "name":  "Melón",
                             "cat":  "Frutas",
                             "scale":  1,
                             "states":  {
@@ -2281,7 +2281,7 @@
                         {
                             "id":  "reggianito",
                             "name":  "Reggianito",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2304,7 +2304,7 @@
                         {
                             "id":  "queso-romanito",
                             "name":  "Queso Romanito",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2321,8 +2321,8 @@
                         },
                         {
                             "id":  "queso-epice",
-                            "name":  "Queso epicÃ©",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "name":  "Queso epicé",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2340,7 +2340,7 @@
                         {
                             "id":  "tomillo",
                             "name":  "Tomillo",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2376,7 +2376,7 @@
                         {
                             "id":  "menta",
                             "name":  "Menta",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2393,7 +2393,7 @@
                         },
                         {
                             "id":  "sesamo-negro",
-                            "name":  "SÃ©samo negro",
+                            "name":  "Sésamo negro",
                             "cat":  "Otros",
                             "scale":  1,
                             "states":  {
@@ -2407,7 +2407,7 @@
                         {
                             "id":  "yogurt",
                             "name":  "Yogurt",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2443,7 +2443,7 @@
                         {
                             "id":  "oxalis-morado",
                             "name":  "Oxalis morado",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2466,7 +2466,7 @@
                         {
                             "id":  "microgreens",
                             "name":  "Microgreens",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2512,7 +2512,7 @@
                         {
                             "id":  "ricota-puglia",
                             "name":  "Ricota de la Puglia",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1.2,
                             "states":  {
                                            "entero":  {
@@ -2557,7 +2557,7 @@
                         },
                         {
                             "id":  "jamon-crudo",
-                            "name":  "JamÃ³n crudo",
+                            "name":  "Jamón crudo",
                             "cat":  "Fiambres y Embutidos",
                             "scale":  0.9,
                             "states":  {
@@ -2731,7 +2731,7 @@
                         },
                         {
                             "id":  "pastron",
-                            "name":  "PastrÃ³n",
+                            "name":  "Pastrón",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -2754,7 +2754,7 @@
                         },
                         {
                             "id":  "mani",
-                            "name":  "ManÃ­",
+                            "name":  "Maní",
                             "cat":  "Verduras y Hortalizas",
                             "scale":  1,
                             "states":  {
@@ -2775,7 +2775,7 @@
                         },
                         {
                             "id":  "caracu",
-                            "name":  "CaracÃº",
+                            "name":  "Caracú",
                             "cat":  "Carnes y Mariscos",
                             "scale":  1,
                             "states":  {
@@ -2794,7 +2794,7 @@
                         {
                             "id":  "cheddar-estacionado",
                             "name":  "Cheddar estacionado",
-                            "cat":  "LÃ¡cteos, Quesos y Hierbas",
+                            "cat":  "Lácteos, Quesos y Hierbas",
                             "scale":  1,
                             "states":  {
                                            "entero":  {
@@ -2876,7 +2876,7 @@
                         },
                         {
                             "id":  "reduccion-de-tomate",
-                            "name":  "ReducciÃ³n de tomate",
+                            "name":  "Reducción de tomate",
                             "cat":  "Otros",
                             "scale":  1,
                             "states":  {
@@ -2909,7 +2909,7 @@
                      },
                      {
                          "id":  "aceto",
-                         "name":  "ReducciÃ³n de aceto balsÃ¡mico",
+                         "name":  "Reducción de aceto balsámico",
                          "color":  "#3a231d",
                          "alpha":  0.8
                      },
@@ -2921,19 +2921,19 @@
                      },
                      {
                          "id":  "jugo-de-limon",
-                         "name":  "Jugo de limÃ³n",
+                         "name":  "Jugo de limón",
                          "color":  "#fffbad",
                          "alpha":  0.25
                      },
                      {
                          "id":  "pesto-de-limon-lactofermentado",
-                         "name":  "Pesto de limÃ³n lactofermentado",
+                         "name":  "Pesto de limón lactofermentado",
                          "color":  "#ffe8b8",
                          "alpha":  0.3
                      },
                      {
                          "id":  "reduccion-de-tomate",
-                         "name":  "ReducciÃ³n de tomate",
+                         "name":  "Reducción de tomate",
                          "color":  "#B83216",
                          "alpha":  0.7
                      }
