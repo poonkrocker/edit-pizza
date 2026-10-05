@@ -1,4 +1,4 @@
-﻿<?php require __DIR__ . '/guard.php'; ?>
+<?php require __DIR__ . '/guard.php'; ?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -172,7 +172,7 @@
       <button data-mode="base">Bases</button>
       <button data-mode="style">Estilos de pizza</button>
     </div>
-    <input id="search" type="text" placeholder="Buscar ingrediente…" autocomplete="off">
+    <input id="search" type="text" placeholder="Buscar ingrediente..." autocomplete="off">
     <select id="catFilter"></select>
     <span id="count"></span>
   </div>
@@ -234,7 +234,7 @@
       <div class="colorRow"><input type="color" id="bColor" value="#c0432a"><input type="text" id="bColorHex" maxlength="7" style="flex:1"></div>
     </div>
     <div class="field" id="bTexField" style="display:none"><label>Textura (se repite en mosaico)</label>
-      <div class="segbtns"><button class="btn" id="bTexUpload">Subir PNG…</button><button class="btn ghost" id="bTexClear">Quitar textura</button></div>
+      <div class="segbtns"><button class="btn" id="bTexUpload">Subir PNG...</button><button class="btn ghost" id="bTexClear">Quitar textura</button></div>
     </div>
     <div class="field" id="bSpriteField" style="display:none"><label>Sprite de base (PNG con transparencia)</label>
       <div class="segbtns"><button class="btn" id="bSpriteUpload" type="button">Subir PNG&#x2026;</button><button class="btn ghost" id="bSpriteClear" type="button">Quitar sprite</button></div>
@@ -760,7 +760,7 @@ boot();
     mode=m;
     document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('sel',x.dataset.mode===m));
     $('catFilter').style.display = m==='ing'?'':'none';
-    $('search').placeholder = m==='ing'?'Buscar ingrediente…' : m==='driz'?'Buscar drizzle…':'Buscar base…';
+    $('search').placeholder = m==='ing'?'Buscar ingrediente...' : m==='driz'?'Buscar drizzle...':'Buscar base...';
     $('btnNew').textContent = m==='ing'?'+ Nuevo ingrediente' : m==='driz'?'+ Nuevo drizzle':'+ Nueva base';
     closeAllPanels(); renderMain();
   }
