@@ -1,0 +1,6 @@
+# Las pizzas guardadas solo se leen a través de api.php, nunca por URL directa.
+# Apache 2.4+:
+Require all denied
+# Apache 2.2 (viejo), usá en cambio:
+#   Order deny,allow
+#   Deny from all

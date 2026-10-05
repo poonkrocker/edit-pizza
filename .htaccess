@@ -1,0 +1,11 @@
+# Subdominio de pizzas (uso interno) — todo detrás del login.
+
+# La raíz del subdominio abre el editor de pizzas (ya protegido por el login).
+DirectoryIndex index.php
+
+# Por si quedaron enlaces/favoritos a las URLs viejas .html, los mandamos a .php.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^index\.html$   index.php   [R=301,L]
+  RewriteRule ^editor\.html$  editor.php  [R=301,L]
+</IfModule>

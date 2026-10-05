@@ -1,0 +1,7 @@
+# OPCIONAL (Apache): copiá esto como  data/.htaccess  para que las pizzas
+# guardadas solo se puedan leer a través de api.php y no por URL directa.
+# Apache 2.4+:
+Require all denied
+# Apache 2.2 (viejo), usá en cambio:
+#   Order deny,allow
+#   Deny from all

@@ -1,0 +1,7 @@
+﻿*-old.*
+*-old-*.*
+*.lk
+*.tmp
+.DS_Store
+Thumbs.db
+*.log
