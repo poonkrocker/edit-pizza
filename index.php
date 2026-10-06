@@ -387,36 +387,40 @@
   /* ============ Galería de pizzas ============ */
   .galmask{position:fixed; inset:0; z-index:120; display:none; background:rgba(28,17,8,.55); backdrop-filter:blur(3px)}
   .galmask.on{display:flex}
-  .galwrap{margin:auto; width:min(1000px,96vw); height:min(86vh,760px); max-height:92vh; display:flex; flex-direction:column;
+  .galwrap{margin:auto; width:min(1040px,96vw); height:min(88vh,780px); max-height:92vh; display:flex; flex-direction:column;
     background:var(--crema); border:1px solid var(--line2); border-radius:16px; overflow:hidden; box-shadow:0 24px 70px rgba(28,17,8,.4)}
-  .galwrap .h{flex:0 0 auto; display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fffdf8,var(--blanco))}
-  .galwrap .h h3{margin:0; font-family:var(--font-display); font-weight:400; font-size:20px; color:var(--marron)}
+  .galwrap .h{flex:0 0 auto; display:flex; align-items:center; gap:10px; padding:14px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fffdf8,var(--blanco))}
+  .galwrap .h h3{margin:0; font-family:var(--font-display); font-weight:400; font-size:21px; color:var(--marron)}
   .galwrap .h .sp{flex:1}
   .galwrap .h button{height:34px; padding:0 12px; border:1px solid var(--line2); border-radius:9px; background:var(--panel); color:var(--ink); font-family:var(--font-body); font-size:13px; font-weight:600; cursor:pointer}
   .galwrap .h button.x{width:34px; padding:0; font-size:16px; color:var(--muted)}
-  .galgrid{flex:1 1 auto; min-height:0; padding:18px 20px; overflow-y:auto; overflow-x:hidden; display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; align-content:start; scrollbar-width:thin; scrollbar-color:var(--line2) transparent}
-  .galgrid::-webkit-scrollbar{width:8px}
+  .galgrid{flex:1 1 auto; min-height:0; padding:16px 20px 24px; overflow-y:auto; overflow-x:hidden; display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; align-content:start; scrollbar-width:thin; scrollbar-color:var(--line2) transparent}
+  .galgrid::-webkit-scrollbar{width:7px}
   .galgrid::-webkit-scrollbar-track{background:transparent}
   .galgrid::-webkit-scrollbar-thumb{background:var(--line2); border-radius:4px}
   .galgrid::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
   .gal-empty{grid-column:1/-1; text-align:center; color:var(--muted2); font-family:var(--font-accent); font-style:italic; font-size:15px; padding:40px 10px}
-  .gal-card{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--panel); display:flex; flex-direction:column; min-height:250px; box-sizing:border-box; transition:box-shadow .15s,border-color .15s}
-  .gal-card:hover{border-color:var(--ocre-d); box-shadow:0 8px 22px rgba(28,17,8,.16)}
-  .gal-thumb{width:100%; aspect-ratio:1/1; flex:0 0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:44px;
-    background:radial-gradient(120% 100% at 50% 0%, rgba(212,180,131,.28), transparent 60%), var(--panel2)}
-  .gal-thumb img{width:100%; height:100%; object-fit:contain; display:block; pointer-events:none}
-  .gal-meta{padding:10px 12px 6px; flex:0 0 auto}
-  .gal-name{font-family:var(--font-display); font-size:15px; color:var(--marron); line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .gal-sub{font-family:var(--font-body); font-size:11.5px; color:var(--muted); margin-top:3px}
-  .gal-acts{display:flex; gap:6px; padding:8px 12px 12px; margin-top:auto; flex:0 0 auto; position:relative; z-index:1}
-  .gal-acts .gbtn{flex:1; height:32px; border-radius:8px; border:1px solid var(--line2); font-family:var(--font-body); font-size:12.5px; font-weight:600; cursor:pointer}
-  .gal-acts .open{background:linear-gradient(180deg,var(--rojo-f),var(--rojo)); color:#fff; border-color:transparent}
+  .gal-card{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--panel); display:flex; flex-direction:column; height:222px; box-sizing:border-box; transition:box-shadow .15s,border-color .15s,transform .12s}
+  .gal-card:hover{border-color:var(--ocre-d); box-shadow:0 6px 18px rgba(28,17,8,.14); transform:translateY(-2px)}
+  .gal-thumb{width:100%; height:110px; flex:0 0 110px; overflow:hidden; display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 50% 50%, rgba(212,180,131,.28) 0%, rgba(245,237,224,.5) 70%, transparent 100%), var(--panel2);
+    border-bottom:1px solid rgba(232,220,203,.6)}
+  .gal-thumb img{height:98px; width:98px; object-fit:contain; display:block; pointer-events:none; filter:drop-shadow(0 2px 5px rgba(43,24,10,.18))}
+  .gal-meta{padding:8px 10px 2px; flex:1 1 auto; min-height:0; display:flex; flex-direction:column; justify-content:flex-start}
+  .gal-name{font-family:var(--font-display); font-size:14px; font-weight:600; color:var(--marron); line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .gal-sub{font-family:var(--font-body); font-size:11px; color:var(--muted); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .gal-acts{display:flex; gap:6px; padding:6px 10px 10px; margin-top:auto; flex:0 0 auto; box-sizing:border-box}
+  .gal-acts .gbtn{flex:1; height:29px; border-radius:7px; border:1px solid var(--line2); font-family:var(--font-body); font-size:12px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:background .12s,color .12s}
+  .gal-acts .open{background:linear-gradient(180deg,var(--rojo-f),var(--rojo)); color:#fff; border-color:transparent; box-shadow:0 1px 3px rgba(196,39,33,.25)}
+  .gal-acts .open:hover{filter:brightness(1.06)}
   .gal-acts .del{background:transparent; color:var(--muted)}
-  .gal-acts .del:hover{color:var(--rojo); border-color:var(--rojo)}
+  .gal-acts .del:hover{color:var(--rojo); border-color:var(--rojo); background:rgba(196,39,33,.05)}
   @media (max-width:560px){
     .galwrap{width:96vw; height:92vh}
-    .galgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; padding:12px}
-    .gal-card{min-height:210px}
+    .galgrid{grid-template-columns:repeat(auto-fill,minmax(135px,1fr)); gap:10px; padding:10px}
+    .gal-card{height:205px}
+    .gal-thumb{height:98px; flex-basis:98px}
+    .gal-thumb img{width:88px; height:88px}
   }
 
 
