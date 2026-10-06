@@ -126,8 +126,7 @@
     background:transparent; color:inherit; font-family:inherit; font-size:12px; font-weight:600; cursor:pointer}
   .srcnote .mini:hover{background:rgba(0,0,0,.06)}
   .srcnote b{font-weight:700}
-  
-  .card.styleCard{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px;min-height:160px;cursor:pointer}
+    .card.styleCard{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px;min-height:160px;cursor:pointer}
   .card.styleCard:hover{border-color:var(--ocre-d);background:var(--panel2)}
   .card.styleCard img{transition:transform .15s}
   .card.styleCard:hover img{transform:scale(1.05)}
@@ -172,7 +171,7 @@
       <button data-mode="base">Bases</button>
       <button data-mode="style">Estilos de pizza</button>
     </div>
-    <input id="search" type="text" placeholder="Buscar ingrediente..." autocomplete="off">
+    <input id="search" type="text" placeholder="Buscar ingrediente…" autocomplete="off">
     <select id="catFilter"></select>
     <span id="count"></span>
   </div>
@@ -234,10 +233,10 @@
       <div class="colorRow"><input type="color" id="bColor" value="#c0432a"><input type="text" id="bColorHex" maxlength="7" style="flex:1"></div>
     </div>
     <div class="field" id="bTexField" style="display:none"><label>Textura (se repite en mosaico)</label>
-      <div class="segbtns"><button class="btn" id="bTexUpload">Subir PNG...</button><button class="btn ghost" id="bTexClear">Quitar textura</button></div>
+      <div class="segbtns"><button class="btn" id="bTexUpload">Subir PNG…</button><button class="btn ghost" id="bTexClear">Quitar textura</button></div>
     </div>
     <div class="field" id="bSpriteField" style="display:none"><label>Sprite de base (PNG con transparencia)</label>
-      <div class="segbtns"><button class="btn" id="bSpriteUpload" type="button">Subir PNG&#x2026;</button><button class="btn ghost" id="bSpriteClear" type="button">Quitar sprite</button></div>
+      <div class="segbtns"><button class="btn" id="bSpriteUpload" type="button">Subir PNG…</button><button class="btn ghost" id="bSpriteClear" type="button">Quitar sprite</button></div>
       <input type="file" id="fileBaseSprite" accept="image/png,image/webp" hidden>
     </div>
     <div class="field"><label>Transparencia</label>
@@ -252,7 +251,7 @@
 </aside>
 
 <aside class="panel" id="stylePanel">
-  <header><h2 id="styleTitle">Editar estilo de pizza</h2><button class="btn ghost" id="closeStyle">&#x2715;</button></header>
+  <header><h2 id="styleTitle">Editar estilo de pizza</h2><button class="btn ghost" id="closeStyle">✕</button></header>
   <div class="body">
     <div class="field"><label>Nombre del estilo</label><input type="text" id="sName" maxlength="48" placeholder="Ej: Napolitana, Detroit, Cuadrada..."></div>
     <div class="field-row">
@@ -272,7 +271,7 @@
     </div>
     <div class="field"><label>Sprite Masa Cruda (PNG con transparencia)</label>
       <div class="segbtns">
-        <button class="btn" id="sUploadCruda" type="button">Subir PNG Cruda&#x2026;</button>
+        <button class="btn" id="sUploadCruda" type="button">Subir PNG Cruda…</button>
         <button class="btn ghost" id="sClearCruda" type="button">Quitar</button>
       </div>
       <span id="sCrudaInfo" style="font-size:12px;color:var(--muted);display:block;margin-top:4px"></span>
@@ -280,13 +279,13 @@
     </div>
     <div class="field"><label>Sprite Masa Cocida (PNG con transparencia)</label>
       <div class="segbtns">
-        <button class="btn" id="sUploadCocida" type="button">Subir PNG Cocida&#x2026;</button>
+        <button class="btn" id="sUploadCocida" type="button">Subir PNG Cocida…</button>
         <button class="btn ghost" id="sClearCocida" type="button">Quitar</button>
       </div>
       <span id="sCocidaInfo" style="font-size:12px;color:var(--muted);display:block;margin-top:4px"></span>
       <input type="file" id="fileCocida" accept="image/png,image/webp" hidden>
     </div>
-    <div class="field"><label>Previsualizaci&#xF3;n y margen de salsa</label>
+    <div class="field"><label>Previsualización y margen de salsa</label>
       <div class="segbtns" id="sPrevBakeSeg" style="margin-bottom:8px">
         <button data-bake="1" class="sel mini" type="button">Cocida</button>
         <button data-bake="0" class="mini" type="button">Cruda</button>
@@ -760,8 +759,8 @@ boot();
     mode=m;
     document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('sel',x.dataset.mode===m));
     $('catFilter').style.display = m==='ing'?'':'none';
-    $('search').placeholder = m==='ing'?'Buscar ingrediente...' : m==='driz'?'Buscar drizzle...':'Buscar base...';
-    $('btnNew').textContent = m==='ing'?'+ Nuevo ingrediente' : m==='driz'?'+ Nuevo drizzle':'+ Nueva base';
+    $('search').placeholder = m==='ing'?'Buscar ingrediente…' : m==='driz'?'Buscar drizzle…' : m==='base'?'Buscar base…':'Buscar estilo de pizza…';
+    $('btnNew').textContent = m==='ing'?'+ Nuevo ingrediente' : m==='driz'?'+ Nuevo drizzle' : m==='base'?'+ Nueva base':'+ Nuevo estilo';
     closeAllPanels(); renderMain();
   }
 
@@ -821,8 +820,8 @@ boot();
     if(!editingBase) return; const nm=$('bName').value.trim(); if(!nm){ toast('Ponele un nombre'); return; }
     editingBase.name=nm; editingBase.color=norm($('bColorHex').value.trim()||$('bColor').value); editingBase.alpha=parseFloat($('bAlpha').value);
         if(editingBase._type==='color'){ delete editingBase.tex; delete editingBase.sprite; }
-    else if(editingBase._type==='tex'){ delete editingBase.sprite; if(!editingBase.tex){ toast('Sub\u00ED una textura'); return; } }
-    else if(editingBase._type==='sprite'){ delete editingBase.tex; if(!editingBase.sprite){ toast('Sub\u00ED un sprite'); return; } }
+    else if(editingBase._type==='tex'){ delete editingBase.sprite; if(!editingBase.tex){ toast('Subí una textura'); return; } }
+    else if(editingBase._type==='sprite'){ delete editingBase.tex; if(!editingBase.sprite){ toast('Subí un sprite'); return; } }
     else if(!editingBase.tex){ toast('Subí una textura PNG o cambiá a Color'); return; }
     delete editingBase._type;
     if(isNewBase){ editingBase.id=uidIn(nm,BASES,null); BASES.push(editingBase); }
@@ -849,10 +848,10 @@ boot();
     (STYLES||[]).filter(s=>!q||(s.name||'').toLowerCase().includes(q)).forEach(s=>{
       const c=document.createElement('div'); c.className='card styleCard';
       const prevUri=(s.sprites&&(s.sprites['1']||s.sprites['0']))||'';
-      const imgHtml=prevUri?('<img src="'+prevUri+'" style="width:100px;height:100px;object-fit:contain;display:block;margin:0 auto 8px;" alt="'+s.name+'">'):('<div style="width:100px;height:100px;display:flex;align-items:center;justify-content:center;background:var(--crema);border-radius:50%;margin:0 auto 8px;font-size:32px;">\uD83C\uDF55</div>');
-      const dim=(s.wcm===s.hcm)?(s.wcm+' cm'):(s.wcm+'\u00D7'+s.hcm+' cm');
-      c.innerHTML=imgHtml+'<div class="nm" style="font-weight:600;font-size:14px;color:var(--ink)">'+s.name+'</div>'+
-        '<div class="cat" style="font-size:12px;color:var(--muted)">'+dim+' \u00B7 '+(s.shape||'circle')+'</div>';
+      const imgHtml=prevUri?<img src="" style="width:100px;height:100px;object-fit:contain;display:block;margin:0 auto 8px;" alt="">:<div style="width:100px;height:100px;display:flex;align-items:center;justify-content:center;background:var(--crema);border-radius:50%;margin:0 auto 8px;font-size:32px;">🍕</div>;
+      const dim=(s.wcm===s.hcm)?(s.wcm+' cm'):(s.wcm+'×'+s.hcm+' cm');
+      c.innerHTML=imgHtml+<div class="nm" style="font-weight:600;font-size:14px;color:var(--ink)"></div>+
+        <div class="cat" style="font-size:12px;color:var(--muted)"> · </div>;
       c.onclick=()=>openStyle(s); g.appendChild(c);
     });
     count.textContent=(STYLES?STYLES.length:0)+' estilos de pizza';
@@ -907,8 +906,8 @@ boot();
     if(!editingStyle) return;
     const has0 = !!(editingStyle.sprites && editingStyle.sprites['0']);
     const has1 = !!(editingStyle.sprites && editingStyle.sprites['1']);
-    sCrudaInfo.textContent = has0 ? '\u2713 Sprite cargado' : 'Sin sprite cargado';
-    sCocidaInfo.textContent = has1 ? '\u2713 Sprite cargado' : 'Sin sprite cargado';
+    sCrudaInfo.textContent = has0 ? '✓ Sprite cargado' : 'Sin sprite cargado';
+    sCocidaInfo.textContent = has1 ? '✓ Sprite cargado' : 'Sin sprite cargado';
   }
 
   function openStyle(s){
@@ -974,14 +973,14 @@ boot();
 
   function delStyle(){
     if(!editingStyle || isNewStyle) return;
-    if(!confirm('\u00BFEliminar el estilo \"' + editingStyle.name + '\"?')) return;
+    if(!confirm('¿Eliminar el estilo "' + editingStyle.name + '"?')) return;
     STYLES = STYLES.filter(x => x.id !== editingStyle.id);
     saveLib(); closeAllPanels(); renderMain(); toast('Estilo eliminado');
   }
 
   // --- wiring ---
   document.querySelectorAll('#modeSeg button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
-  $('btnNew').onclick=()=>{ if(mode==='driz')openDriz(null); else if(mode==='base')openBase(null); else openEdit(null); };
+  $('btnNew').onclick=()=>{ if(mode==='driz')openDriz(null); else if(mode==='base')openBase(null); else if(mode==='style')openStyle(null); else openEdit(null); };
   $('search').oninput=renderMain;
 
   // drizzle panel
@@ -1005,65 +1004,6 @@ boot();
   $('fileTex').onchange=function(){ const f=this.files[0]; this.value=''; if(!f||!editingBase) return;
     const r=new FileReader(); r.onload=()=>{ editingBase.tex=r.result; _bTexImg=new Image();
       _bTexImg.onload=()=>{ setBaseType('tex'); drawBasePreview(editingBase); }; _bTexImg.src=r.result; }; r.readAsDataURL(f); };
-
-    // style panel wiring
-  closeStyle.onclick = closeAllPanels;
-  sSave.onclick = saveStyle;
-  sDelete.onclick = delStyle;
-  sName.oninput = e => { if(editingStyle){ editingStyle.name = e.target.value; } };
-  sWcm.oninput = e => { if(editingStyle){ editingStyle.wcm = parseFloat(e.target.value)||27; editingStyle.ar = editingStyle.wcm/(editingStyle.hcm||27); drawStylePreview(editingStyle); } };
-  sHcm.oninput = e => { if(editingStyle){ editingStyle.hcm = parseFloat(e.target.value)||27; editingStyle.ar = (editingStyle.wcm||27)/editingStyle.hcm; drawStylePreview(editingStyle); } };
-  sShape.onchange = e => { if(editingStyle){ editingStyle.shape = e.target.value; drawStylePreview(editingStyle); } };
-  sSauceX.oninput = e => { if(editingStyle){ editingStyle.sauceInset.x = (parseFloat(e.target.value)||12)/100; drawStylePreview(editingStyle); } };
-  sSauceY.oninput = e => { if(editingStyle){ editingStyle.sauceInset.y = (parseFloat(e.target.value)||12)/100; drawStylePreview(editingStyle); } };
-
-  document.querySelectorAll('#sPrevBakeSeg button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('#sPrevBakeSeg button').forEach(x => x.classList.remove('sel'));
-    b.classList.add('sel');
-    stylePrevBake = +b.dataset.bake;
-    drawStylePreview(editingStyle);
-  }));
-
-  sUploadCruda.onclick = () => fileCruda.click();
-  sClearCruda.onclick = () => { if(editingStyle){ editingStyle.sprites['0'] = ''; updateStyleSpriteStatus(); drawStylePreview(editingStyle); } };
-  fileCruda.onchange = function(){
-    const f = this.files[0]; this.value = ''; if(!f || !editingStyle) return;
-    const r = new FileReader();
-    r.onload = () => {
-      editingStyle.sprites['0'] = r.result;
-      updateStyleSpriteStatus();
-      drawStylePreview(editingStyle);
-    };
-    r.readAsDataURL(f);
-  };
-
-  sUploadCocida.onclick = () => fileCocida.click();
-  sClearCocida.onclick = () => { if(editingStyle){ editingStyle.sprites['1'] = ''; updateStyleSpriteStatus(); drawStylePreview(editingStyle); } };
-  fileCocida.onchange = function(){
-    const f = this.files[0]; this.value = ''; if(!f || !editingStyle) return;
-    const r = new FileReader();
-    r.onload = () => {
-      editingStyle.sprites['1'] = r.result;
-      updateStyleSpriteStatus();
-      drawStylePreview(editingStyle);
-    };
-    r.readAsDataURL(f);
-  };
-
-  // Base sprite upload wiring
-  bSpriteUpload.onclick = () => fileBaseSprite.click();
-  bSpriteClear.onclick = () => { if(editingBase){ editingBase.sprite = null; _bSpriteImg = null; setBaseType('color'); } };
-  fileBaseSprite.onchange = function(){
-    const f = this.files[0]; this.value = ''; if(!f || !editingBase) return;
-    const r = new FileReader();
-    r.onload = () => {
-      editingBase.sprite = r.result;
-      _bSpriteImg = new Image();
-      _bSpriteImg.onload = () => { setBaseType('sprite'); drawBasePreview(editingBase); };
-      _bSpriteImg.src = r.result;
-    };
-    r.readAsDataURL(f);
-  };
 
   renderMain();
 })();
