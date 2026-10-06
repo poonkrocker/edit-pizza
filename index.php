@@ -387,29 +387,37 @@
   /* ============ Galería de pizzas ============ */
   .galmask{position:fixed; inset:0; z-index:120; display:none; background:rgba(28,17,8,.55); backdrop-filter:blur(3px)}
   .galmask.on{display:flex}
-  .galwrap{margin:auto; width:min(1000px,96vw); max-height:92vh; display:flex; flex-direction:column;
+  .galwrap{margin:auto; width:min(1000px,96vw); height:min(86vh,760px); max-height:92vh; display:flex; flex-direction:column;
     background:var(--crema); border:1px solid var(--line2); border-radius:16px; overflow:hidden; box-shadow:0 24px 70px rgba(28,17,8,.4)}
-  .galwrap .h{display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fffdf8,var(--blanco))}
+  .galwrap .h{flex:0 0 auto; display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fffdf8,var(--blanco))}
   .galwrap .h h3{margin:0; font-family:var(--font-display); font-weight:400; font-size:20px; color:var(--marron)}
   .galwrap .h .sp{flex:1}
   .galwrap .h button{height:34px; padding:0 12px; border:1px solid var(--line2); border-radius:9px; background:var(--panel); color:var(--ink); font-family:var(--font-body); font-size:13px; font-weight:600; cursor:pointer}
   .galwrap .h button.x{width:34px; padding:0; font-size:16px; color:var(--muted)}
-  .galgrid{padding:18px 20px; overflow:auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px}
+  .galgrid{flex:1 1 auto; min-height:0; padding:18px 20px; overflow-y:auto; overflow-x:hidden; display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:16px; align-content:start; scrollbar-width:thin; scrollbar-color:var(--line2) transparent}
+  .galgrid::-webkit-scrollbar{width:8px}
+  .galgrid::-webkit-scrollbar-track{background:transparent}
+  .galgrid::-webkit-scrollbar-thumb{background:var(--line2); border-radius:4px}
+  .galgrid::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
   .gal-empty{grid-column:1/-1; text-align:center; color:var(--muted2); font-family:var(--font-accent); font-style:italic; font-size:15px; padding:40px 10px}
-  .gal-card{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--panel); display:flex; flex-direction:column; transition:box-shadow .15s,border-color .15s}
+  .gal-card{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--panel); display:flex; flex-direction:column; min-height:250px; box-sizing:border-box; transition:box-shadow .15s,border-color .15s}
   .gal-card:hover{border-color:var(--ocre-d); box-shadow:0 8px 22px rgba(28,17,8,.16)}
-  .gal-thumb{aspect-ratio:1/1; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:44px;
+  .gal-thumb{width:100%; aspect-ratio:1/1; flex:0 0 auto; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:44px;
     background:radial-gradient(120% 100% at 50% 0%, rgba(212,180,131,.28), transparent 60%), var(--panel2)}
   .gal-thumb img{width:100%; height:100%; object-fit:contain; display:block; pointer-events:none}
-  .gal-meta{padding:9px 11px 4px}
-  .gal-name{font-family:var(--font-display); font-size:15px; color:var(--marron); line-height:1.15; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .gal-sub{font-family:var(--font-body); font-size:11px; color:var(--muted); margin-top:2px}
-  .gal-acts{display:flex; gap:6px; padding:8px 11px 11px; margin-top:auto; position:relative; z-index:1}
+  .gal-meta{padding:10px 12px 6px; flex:0 0 auto}
+  .gal-name{font-family:var(--font-display); font-size:15px; color:var(--marron); line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .gal-sub{font-family:var(--font-body); font-size:11.5px; color:var(--muted); margin-top:3px}
+  .gal-acts{display:flex; gap:6px; padding:8px 12px 12px; margin-top:auto; flex:0 0 auto; position:relative; z-index:1}
   .gal-acts .gbtn{flex:1; height:32px; border-radius:8px; border:1px solid var(--line2); font-family:var(--font-body); font-size:12.5px; font-weight:600; cursor:pointer}
   .gal-acts .open{background:linear-gradient(180deg,var(--rojo-f),var(--rojo)); color:#fff; border-color:transparent}
   .gal-acts .del{background:transparent; color:var(--muted)}
   .gal-acts .del:hover{color:var(--rojo); border-color:var(--rojo)}
-  @media (max-width:560px){ .galgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px} }
+  @media (max-width:560px){
+    .galwrap{width:96vw; height:92vh}
+    .galgrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; padding:12px}
+    .gal-card{min-height:210px}
+  }
 
 
   /* ====== Modo "cargar en el puntero" (estilo Pizza Tycoon) ====== */
@@ -2011,10 +2019,14 @@ document.getElementById('fileLib').addEventListener('change',function(){
     list.forEach(p=>{
       const c=document.createElement('div'); c.className='gal-card';
       const tSrc = p.thumbUrl || p.thumb;
-      c.innerHTML='<div class="gal-thumb">'+(tSrc?('<img alt="">'):'🍕')+'</div>'+
+      c.innerHTML='<div class="gal-thumb">'+(tSrc?('<img alt="" loading="lazy">'):'🍕')+'</div>'+
         '<div class="gal-meta"><div class="gal-name"></div><div class="gal-sub"></div></div>'+
         '<div class="gal-acts"><button class="gbtn open">Abrir</button><button class="gbtn del">Borrar</button></div>';
-      if(tSrc) c.querySelector('.gal-thumb img').src=tSrc;
+      if(tSrc){
+        const img = c.querySelector('.gal-thumb img');
+        img.onerror = () => { img.remove(); c.querySelector('.gal-thumb').textContent = '🍕'; };
+        img.src = tSrc;
+      }
       c.querySelector('.gal-name').textContent=p.name||'(sin nombre)';
       c.querySelector('.gal-sub').textContent=(p.count||0)+' ingr · '+fmtDate(p.updatedAt);
       c.querySelector('.open').onclick=()=>openOne(p.id);
