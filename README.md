@@ -11,7 +11,7 @@ Editor web interactivo de pizzas para **Arrabbiata** (arrabbiata.com.ar).
   - Selector de bases salseras con soporte para mitad y mitad (1/2) y texturas/sprites.
   - Salsas en hilo (drizzles) aplicables libremente.
   - Barra de categorías con navegación horizontal táctil y por flechas.
-  - Exportador con previsualización para redes sociales (Feed 1:1, 4:5, Historias 9:16), compartir directo en WhatsApp</a> e</a> Instagram, y descarga de pizza con fondo transparente o JSON.
+  - Exportador con previsualización para redes sociales (Feed 1:1, 4:5, Historias 9:16), compartir directo en WhatsApp e Instagram, y descarga de pizza con fondo transparente o JSON.
   - Galería interna con carga y guardado en servidor.
   - Modo pantalla limpia para capturas y grabación de video.
 
@@ -26,16 +26,16 @@ Editor web interactivo de pizzas para **Arrabbiata** (arrabbiata.com.ar).
 
 ```
 pizza/
-⒔₀ data/
-│   └␀ pizzas/           # Archivos JSON de pizzas guardadas
-└  .htaccess
-└␀ api.php               # Backend PHP para guardado de biblioteca y pizzas
-└  config.php              # Configuración de token y rutas
-└  db_connect.php         # Conexión opcional a base de datos PDO
-└␀ editor.php            # Editor de ingredientes, bases y estilos
-└  favicon.png            # Ícono del sitio
-└␀ guard.php             # Control de acceso y sesión
-└  index.php             # Editor principal de pizzas
-└␀ ingredients.json      # Biblioteca de ingredientes, salsas, bases y estilos
-└  login.php             # Acceso de administración
+├── data/
+│   └── pizzas/          # Archivos JSON de pizzas guardadas
+├── .htaccess
+├── api.php              # Backend PHP para guardado de biblioteca y pizzas
+├── config.php           # Configuración de token y rutas
+├── db_connect.php       # Conexión opcional a base de datos PDO
+├── editor.php           # Editor de ingredientes, bases y estilos
+├── favicon.png          # Ícono del sitio
+├── guard.php            # Control de acceso y sesión
+├── index.php            # Editor principal de pizzas
+├── ingredients.json     # Biblioteca de ingredientes, salsas, bases y estilos
+└── login.php            # Acceso de administración
 ```
