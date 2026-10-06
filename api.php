@@ -18,10 +18,13 @@ $CFG = [
   'token'      => 'xJGsyljPdnMcy43EZyt3YEXVgiTzWP4QnpZAYERLcVQ',                              // token secreto; vacío = sin auth (no recomendado en público)
   'lib_file'   => __DIR__ . '/ingredients.json',   // dónde vive la biblioteca
   'pizzas_dir' => __DIR__ . '/data/pizzas',        // carpeta de pizzas guardadas
+  'thumbs_dir' => __DIR__ . '/data/thumbs',        // miniaturas servidas como archivo
   'max_body'   => 8 * 1024 * 1024,                 // 8 MB
 ];
 $cfgFile = __DIR__ . '/config.php';
 if (is_file($cfgFile)) { $u = include $cfgFile; if (is_array($u)) $CFG = array_merge($CFG, $u); }
+if (empty($CFG['thumbs_dir'])) $CFG['thumbs_dir'] = dirname((string)$CFG['pizzas_dir']) . '/thumbs';
+$tdir = (string)$CFG['thumbs_dir'];
 
 /* ---- cabeceras ---- */
 header('Content-Type: application/json; charset=utf-8');
@@ -39,6 +42,38 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') { http_response_code(20
 /* ---- helpers ---- */
 function out($data, int $code = 200): void { http_response_code($code); echo json_encode($data, JSON_UNESCAPED_UNICODE); exit; }
 function fail(string $msg, int $code = 400): void { out(['ok' => false, 'error' => $msg], $code); }
+
+function thumb_url(string $id): string {
+  if ($id === '') return '';
+  $script = (string)($_SERVER['SCRIPT_NAME'] ?? '/api.php');
+  return $script . '?action=thumb&id=' . rawurlencode($id);
+}
+
+function find_thumb_file(string $tdir, string $id): string {
+  foreach (['webp', 'png', 'jpg', 'jpeg'] as $ext) {
+    $p = $tdir . '/' . $id . '.' . $ext;
+    if (is_file($p)) return $p;
+  }
+  return '';
+}
+
+function thumb_mime(string $path): string {
+  $e = strtolower((string)pathinfo($path, PATHINFO_EXTENSION));
+  if ($e === 'png')  return 'image/png';
+  if ($e === 'webp') return 'image/webp';
+  return 'image/jpeg';
+}
+
+function save_thumb_file(string $tdir, string $id, string $dataUri): string {
+  if ($id === '' || $dataUri === '') return '';
+  if (!preg_match('~^data:image/(png|jpe?g|webp);base64,(.+)$~s', $dataUri, $m)) return '';
+  $ext = strtolower($m[1]); if ($ext === 'jpeg') $ext = 'jpg';
+  $bin = base64_decode((string)preg_replace('/\s+/', '', $m[2]), true);
+  if ($bin === false || $bin === '') return '';
+  if (!is_dir($tdir)) @mkdir($tdir, 0775, true);
+  foreach (['webp', 'png', 'jpg'] as $e) { if ($e !== $ext) @unlink($tdir . '/' . $id . '.' . $e); }
+  return atomic_write($tdir . '/' . $id . '.' . $ext, $bin) ? $ext : '';
+}
 
 function check_auth(array $CFG): void {
   // 1) Sesión de admin del subdominio: si entraste por login.php, ya estás autorizado.
@@ -102,12 +137,15 @@ switch ($action) {
         if (basename($f) === 'index.json') continue;
         $j = json_decode((string)@file_get_contents($f), true);
         if (!is_array($j)) continue;
+        $id = (string)($j['id'] ?? basename($f, '.json'));
+        $thumbFile = find_thumb_file($tdir, $id);
         $items[] = [
-          'id'        => (string)($j['id'] ?? basename($f, '.json')),
+          'id'        => $id,
           'name'      => (string)($j['name'] ?? '(sin nombre)'),
           'base'      => (string)($j['base'] ?? ''),
           'count'     => is_array($j['items'] ?? null) ? count($j['items']) : 0,
           'thumb'     => (string)($j['thumb'] ?? ''),
+          'thumbUrl'  => ($thumbFile !== '') ? thumb_url($id) : '',
           'updatedAt' => (int)($j['updatedAt'] ?? @filemtime($f)),
         ];
       }
@@ -137,6 +175,9 @@ switch ($action) {
     $body['id'] = $id;
     if (!isset($body['createdAt'])) $body['createdAt'] = $now;
     $body['updatedAt'] = $now;
+    if (!empty($body['thumb'])) {
+      save_thumb_file($tdir, $id, (string)$body['thumb']);
+    }
     $json = json_encode($body, JSON_UNESCAPED_UNICODE);
     if ($json === false) fail('No pude serializar la pizza', 500);
     $f = (string)$CFG['pizzas_dir'] . '/' . $id . '.json';
@@ -152,7 +193,43 @@ switch ($action) {
     if ($id === '') fail('Falta id');
     $f = (string)$CFG['pizzas_dir'] . '/' . $id . '.json';
     if (is_file($f)) @unlink($f);
+    foreach (['webp', 'png', 'jpg', 'jpeg'] as $e) { @unlink($tdir . '/' . $id . '.' . $e); }
     out(['ok' => true, 'id' => $id]);
+  }
+
+  /* ---------- SERVIR MINIATURA (con cache HTTP fuerte) ---------- */
+  case 'thumb': {
+    $id = safe_id((string)($_GET['id'] ?? ''));
+    if ($id === '') { http_response_code(404); exit; }
+    $file = find_thumb_file($tdir, $id);
+    $bin = '';
+    $mime = 'image/webp';
+    if ($file !== '') {
+      $mime = thumb_mime($file);
+      $bin = (string)@file_get_contents($file);
+    } else {
+      $jf = (string)$CFG['pizzas_dir'] . '/' . $id . '.json';
+      if (is_file($jf)) {
+        $j = json_decode((string)@file_get_contents($jf), true);
+        $t = is_array($j) ? (string)($j['thumb'] ?? '') : '';
+        if (preg_match('~^data:image/(png|jpe?g|webp);base64,(.+)$~s', $t, $m)) {
+          $bin = (string)base64_decode((string)preg_replace('/\s+/', '', $m[2]), true);
+          $ext = strtolower($m[1]);
+          $mime = $ext === 'png' ? 'image/png' : ($ext === 'webp' ? 'image/webp' : 'image/jpeg');
+        }
+      }
+    }
+    if ($bin === '') { http_response_code(404); exit; }
+    $etag = '"' . md5($bin) . '"';
+    header('Content-Type: ' . $mime);
+    header('Cache-Control: public, max-age=604800, immutable');
+    header('ETag: ' . $etag);
+    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) === $etag) {
+      http_response_code(304); exit;
+    }
+    header('Content-Length: ' . strlen($bin));
+    echo $bin;
+    exit;
   }
 
   default:

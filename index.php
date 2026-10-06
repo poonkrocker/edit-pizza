@@ -1971,7 +1971,7 @@ document.getElementById('fileLib').addEventListener('change',function(){
   function serialize(){
     const name=(document.getElementById('pizzaName').value||'').trim()||'Pizza';
     const its=items.slice().sort((a,b)=>a.z-b.z).map(it=>({sid:it.sid, fx:+it.fx.toFixed(4), fy:+it.fy.toFixed(4), rot:+(+it.rot).toFixed(2), scl:it.scl, flip:!!it.flip, st:it.st}));
-    let thumb=''; try{ thumb=window.__pizzaSquare(240).toDataURL('image/png'); }catch(e){}
+    let thumb=''; try{ thumb=window.__pizzaSquare(240).toDataURL('image/webp', 0.82); }catch(e){ try{ thumb=window.__pizzaSquare(240).toDataURL('image/png'); }catch(e){} }
     return {schema:1, id:currentPizzaId||'', name, base:curBase, fmt:curFmt, items:its, drizzles:activeDrizzles.slice(), thumb};
   }
   async function savePizza(){
@@ -2010,10 +2010,11 @@ document.getElementById('fileLib').addEventListener('change',function(){
     if(!list.length){ grid.innerHTML='<div class="gal-empty">Todavía no guardaste ninguna pizza.<br>Armá una y tocá “Guardar pizza”.</div>'; return; }
     list.forEach(p=>{
       const c=document.createElement('div'); c.className='gal-card';
-      c.innerHTML='<div class="gal-thumb">'+(p.thumb?('<img alt="">'):'🍕')+'</div>'+
+      const tSrc = p.thumbUrl || p.thumb;
+      c.innerHTML='<div class="gal-thumb">'+(tSrc?('<img alt="">'):'🍕')+'</div>'+
         '<div class="gal-meta"><div class="gal-name"></div><div class="gal-sub"></div></div>'+
         '<div class="gal-acts"><button class="gbtn open">Abrir</button><button class="gbtn del">Borrar</button></div>';
-      if(p.thumb) c.querySelector('.gal-thumb img').src=p.thumb;
+      if(tSrc) c.querySelector('.gal-thumb img').src=tSrc;
       c.querySelector('.gal-name').textContent=p.name||'(sin nombre)';
       c.querySelector('.gal-sub').textContent=(p.count||0)+' ingr · '+fmtDate(p.updatedAt);
       c.querySelector('.open').onclick=()=>openOne(p.id);
