@@ -506,13 +506,13 @@
     </button>
   </div>
 
-  <button class="toptoggle" id="topToggle" aria-label="Colapsar/expandir barra" title="Colapsar/expandir barra">â–´</button>
+  <button class="toptoggle" id="topToggle" aria-label="Colapsar/expandir barra" title="Colapsar/expandir barra">▴</button>
 
   <div class="main">
     <aside class="tray">
       <div class="tray-head">
         <div class="k">Ingredientes</div>
-        <button id="trayToggle" aria-label="Mostrar/ocultar ingredientes">â–¾</button>
+        <button id="trayToggle" aria-label="Mostrar/ocultar ingredientes">▾</button>
         <input class="search" id="search" placeholder="Buscar ingrediente…" autocomplete="off">
         <div class="catwrap">
           <button class="catarrow lt" id="catLeft" type="button" aria-label="Filtros anteriores">‹</button>
@@ -915,7 +915,13 @@ function addItem(sid,fx,fy,opts={}){
   items.push(it); renderItem(it); if(!opts.silent) select(it);
   return it;
 }
-function opacityOf(sid){ const s=spriteById[sid]; return (s&&s.op!=null)?s.op:1; }
+function opacityOf(it){
+  const sid = (it && typeof it === 'object') ? it.sid : it;
+  const st  = (it && typeof it === 'object') ? (it.st||'entero') : 'entero';
+  const stObj = (st!=='entero' && STATES[sid] && STATES[sid][st]) ? STATES[sid][st] : null;
+  if(stObj && stObj.opacity!=null) return stObj.opacity;
+  const s=spriteById[sid]; return (s&&s.op!=null)?s.op:1;
+}
 function renderItem(it){
   let el=document.getElementById('t_'+it.uid);
   const s=stateSprite(it);
@@ -932,7 +938,7 @@ function renderItem(it){
   el.style.left=(it.fx*stageSize()-w/2)+'px';
   el.style.top=(it.fy*stageH()-h/2)+'px';
   el.style.transform=`rotate(${it.rot}deg) scaleX(${it.flip?-1:1})`;
-  el.style.opacity=opacityOf(it.sid);
+  el.style.opacity=opacityOf(it);
   el.classList.toggle('sel',selected===it);
 }
 function renderAll(){ layer.innerHTML=''; items.sort((a,b)=>a.z-b.z).forEach(renderItem); }
@@ -1049,6 +1055,8 @@ function _applySauce(el, b, clip){
   el.style.mixBlendMode=b.blend||'multiply';
   el.style.opacity=b.op;
   el.style.clipPath=clip;
+  if(b.sprite){ el.style.webkitMask='none'; el.style.mask='none'; }
+  else { el.style.webkitMask=''; el.style.mask=''; }
 }
 function renderBase(){
   if(splitBase){
@@ -1148,24 +1156,37 @@ function applyBases(arr){
     const id=b.id||slugDz(b.name); if(!id) return;
     const col=b.color||'#c0432a';
     const a=(b.alpha==null?0.9:+b.alpha);
-    // Bases claras (cremas/blancas) en 'multiply' quedarían invisibles → usamos 'normal'.
+    // Bases claras (cremas/blancas) o con sprite en 'multiply' quedarían invisibles/alteradas → usamos 'normal'.
     const [_r,_g,_b2]=_hexToRgb(col); const lum=(0.2126*_r+0.7152*_g+0.0722*_b2)/255;
     const light=lum>0.72;
-    const blend=light?'normal':'multiply';
+    const blend=(b.sprite||light)?'normal':'multiply';
     const up=light?0.06:0.18, dn=light?-0.12:-0.28;
-    nb[id]={ blend, op:a, stops:[[_shade(col,up),0],[col,0.55],[_shade(col,dn),1]], _name:b.name||id };
+    const entry={ blend, op:a, stops:[[_shade(col,up),0],[col,0.55],[_shade(col,dn),1]], _name:b.name||id };
+    if(b.tex){
+      entry.tex=b.tex;
+      const im=new Image(); im.onload=()=>{ try{ renderBase(); }catch(e){} }; im.src=b.tex;
+      entry._texImg=im;
+    }
+    if(b.sprite){
+      entry.sprite=b.sprite;
+      const im=new Image(); im.onload=()=>{ try{ renderBase(); }catch(e){} }; im.src=b.sprite;
+      entry._spriteImg=im;
+    }
+    nb[id]=entry;
   });
   for(const k in BASES){ delete BASES[k]; }
   Object.assign(BASES, nb);
-  const sel=document.getElementById('baseSel');
-  if(sel){
+  [document.getElementById('baseSel'), document.getElementById('baseSel2')].forEach(sel=>{
+    if(!sel) return;
     sel.innerHTML='';
     const mk=(id,label)=>{ const o=document.createElement('option'); o.value=id; o.textContent=label; sel.appendChild(o); };
     mk('none','Sin base');
     arr.forEach(b=>mk(b.id||slugDz(b.name), b.name||b.id));
-  }
+  });
   if(!(curBase in BASES)) curBase=(arr[0] && (arr[0].id||slugDz(arr[0].name)))||'none';
+  if(!(curBase2 in BASES)) curBase2='none';
   setBase(curBase);
+  setBase2(curBase2);
 }
 
 /* ---------- salsas / aderezos en línea (drizzle) ---------- */
@@ -1360,7 +1381,7 @@ function exportPNG(){
   items.sort((a,b)=>a.z-b.z).forEach(it=>{
     const s=stateSprite(it); const img=imgFor(s.uri);
     const w=s.w*PX*scaleFor(it.sid)*fmtScale()*it.scl*(sz/REF)*S, h=s.h*PX*scaleFor(it.sid)*fmtScale()*it.scl*(sz/REF)*S;
-    c.save(); c.globalAlpha=opacityOf(it.sid); c.translate(it.fx*W,it.fy*H); c.rotate(it.rot*Math.PI/180); c.scale(it.flip?-1:1,1);
+    c.save(); c.globalAlpha=opacityOf(it); c.translate(it.fx*W,it.fy*H); c.rotate(it.rot*Math.PI/180); c.scale(it.flip?-1:1,1);
     try{ c.drawImage(img,-w/2,-h/2,w,h);}catch(e){}
     c.restore();
   });
@@ -1383,7 +1404,7 @@ let tt; function toast(m){ const t=document.getElementById('toast'); t.textConte
 const trayToggle=document.getElementById('trayToggle');
 if(trayToggle) trayToggle.addEventListener('click',()=>{
   const min=document.body.classList.toggle('tray-min');
-  trayToggle.textContent=min?'â–´':'â–¾';
+  trayToggle.textContent=min?'▴':'▾';
 });
 
 // ---------- topbar colapsable + medida de altura para anclar la barra de edición ----------
@@ -1393,7 +1414,7 @@ function setTopH(){ const tb=document.querySelector('.topbar'); if(!tb) return;
 const topToggle=document.getElementById('topToggle');
 if(topToggle) topToggle.addEventListener('click',()=>{
   const min=document.body.classList.toggle('top-min');
-  topToggle.textContent=min?'â–¾':'â–´'; setTopH(); setTimeout(setTopH,320);
+  topToggle.textContent=min?'▾':'▴'; setTopH(); setTimeout(setTopH,320);
 });
 window.addEventListener('resize', setTopH);
 setTopH(); setTimeout(setTopH,300);
@@ -1404,10 +1425,12 @@ function applyLibrary(ings){
   for(const k in STATES) delete STATES[k];
   for(const k in spriteById) delete spriteById[k];
   ings.forEach(i=>{
+    if(i.hidden) return;                                  // oculto desde el editor de ingredientes
     const e=i.states&&i.states.entero; if(!e) return;
     const sp={id:i.id,name:i.name,cat:i.cat||'otros',w:e.w,h:e.h,uri:e.uri};
     if(i.scale&&i.scale!==1) sp.scl=i.scale;
-    if(i.opacity!=null && i.opacity!==1) sp.op=i.opacity;
+    const eOp = (e.opacity!=null) ? e.opacity : i.opacity;
+    if(eOp!=null && eOp!==1) sp.op=eOp;
     SPRITES.push(sp); spriteById[i.id]=sp;
     const im=new Image(); im.src=e.uri; imgCache[sp.id]=im;
     const stt={}; ['mitad','picado'].forEach(k=>{ if(i.states[k]){ stt[k]=i.states[k]; imgFor(i.states[k].uri); } });
@@ -1420,7 +1443,7 @@ document.getElementById('fileLib').addEventListener('change',function(){
   const f=this.files[0]; this.value=''; if(!f) return;
   const r=new FileReader();
   r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.ingredients||!d.ingredients.length) throw 0;
-    applyLibrary(d.ingredients); applyDrizzles(d.drizzles); applyBases(d.bases); buildCatBar(); buildTray();
+    applyLibrary(d.ingredients); applyDrizzles(d.drizzles); applyBases(d.bases); if(d.styles) applyStyles(d.styles); buildCatBar(); buildTray();
     try{ localStorage.setItem('rrbb_pizza_lib', r.result); }catch(e){}
     toast(`Biblioteca cargada (${d.ingredients.length} ingredientes)`);
   }catch(e){ toast('JSON inválido'); } };
@@ -1520,7 +1543,16 @@ document.getElementById('fileLib').addEventListener('change',function(){
     feed45:{w:1080,h:1350},
     story: {w:1080,h:1920}
   };
-  const BASE_LABEL={tomate:'Salsa de tomate',pesto:'Pesto',blanca:'Base blanca',picante:'Salsa picante'};
+  const BASE_LABEL={tomate:'Salsa de tomate',pesto:'Pesto',blanca:'Crema de leche',picante:'Salsa picante'};
+  function baseDisplayName(id){ return (BASES[id]&&BASES[id]._name) || BASE_LABEL[id] || (id==='none'?'':id); }
+  function baseFullLabel(){
+    const a=baseDisplayName(curBase);
+    if(splitBase && curBase2 && curBase2!=='none' && curBase2!==curBase){
+      const b=baseDisplayName(curBase2);
+      return (a && b) ? (a+' / '+b) : (a||b);
+    }
+    return a;
+  }
 
   // ---- refs ----
   const mask=document.getElementById('expMask');
@@ -1533,18 +1565,30 @@ document.getElementById('fileLib').addEventListener('change',function(){
 
   // ---- estado del exportador ----
   let fmt='feed';
-  const meta={};                 // sid -> {include, label}
-  let order=[];                  // sids reordenables (sin muzza)
+  const meta={};                 // key -> {include, label}
+  let order=[];                  // keys reordenables (sin muzza)
   let drizOrder=[];              // ids de salsas (drizzles) activas, en orden
   let hasMuzza=false;
   let baseInc=true, baseLabel='';
 
-  function uniqueSids(){
+  // Cada item se agrupa en una "unidad" para la lista de export.
+  // Normalmente la unidad es el ingrediente (sid). PERO si un estado mitad/picado
+  // tiene nombre propio (states.<estado>.label en la biblioteca), ese estado es su
+  // propia unidad y se exporta con ese nombre (ej: burrata mitad -> "Stracciatella").
+  function stLabelOf(sid,st){ const s=STATES[sid]; return (st==='mitad'||st==='picado') && s && s[st] && s[st].label ? s[st].label : ''; }
+  function unitOf(it){
+    const st=it.st||'entero'; const L=stLabelOf(it.sid,st);
+    return L ? {key:it.sid+'\u00ac'+st, sid:it.sid, st, custom:true, def:L}
+             : {key:it.sid, sid:it.sid, st:null, custom:false, def:(spriteById[it.sid]&&spriteById[it.sid].name)||it.sid};
+  }
+  const UNIT={};                 // key -> {sid, custom, st, def}
+  function units(){              // claves de unidad presentes, en orden de aparición
     const seen=new Set(), out=[];
-    items.forEach(it=>{ if(!seen.has(it.sid)){ seen.add(it.sid); out.push(it.sid); } });
+    items.forEach(it=>{ const u=unitOf(it); if(!seen.has(u.key)){ seen.add(u.key); UNIT[u.key]=u; out.push(u.key); } });
     return out;
   }
-  function sidHasPicado(sid){ return items.some(it=>it.sid===sid && it.st==='picado'); }
+  // ¿el ingrediente tiene picado SIN nombre propio? (para agregar el sufijo "picada")
+  function hasPlainPicado(sid){ return items.some(it=>it.sid===sid && it.st==='picado' && !stLabelOf(sid,'picado')); }
   // excepciones a la regla general (nombre termina en a/á = femenino → "picada")
   const PICADO_WORD_OVERRIDE={coliflor:'picada', anana:'picado', nueces:'picadas', ciboulette:'picada'};
   function picadoWordFor(sid){
@@ -1553,50 +1597,54 @@ document.getElementById('fileLib').addEventListener('change',function(){
     return /[aá]$/i.test(nm) ? 'picada' : 'picado';
   }
   function rebuild(){
-    const sids=uniqueSids();
-    hasMuzza=sids.includes('muzzarella');
-    const rest=sids.filter(s=>s!=='muzzarella');
-    const prev=order.filter(s=>rest.includes(s));       // conserva orden manual
-    const add=rest.filter(s=>!prev.includes(s));         // nuevos al final
+    const keys=units();
+    hasMuzza=keys.includes('muzzarella');
+    const rest=keys.filter(k=>k!=='muzzarella');
+    const prev=order.filter(k=>rest.includes(k));       // conserva orden manual
+    const add=rest.filter(k=>!prev.includes(k));         // nuevos al final
     order=[...prev,...add];
-    [...sids].forEach(s=>{ if(!meta[s]) meta[s]={include:true,label:(spriteById[s]&&spriteById[s].name)||s,showPicado:true}; });
+    keys.forEach(k=>{ if(!meta[k]) meta[k]={include:true,label:(UNIT[k]&&UNIT[k].def)||k,showPicado:true}; });
     drizOrder = activeDrizzles.filter(id=>drizById(id));   // salsas activas → a la lista
     drizOrder.forEach(id=>{ const k='d:'+id; if(!meta[k]) meta[k]={include:true,label:(drizById(id)||{}).name||id}; });
-    if(baseLabel==='') baseLabel=BASE_LABEL[curBase]||'';
+    if(baseLabel==='') baseLabel=baseFullLabel();
   }
 
-  // agrega "picado"/"picada" al final de la etiqueta (sin paréntesis) si corresponde
-  function withPicado(sid,label){
+  // agrega "picado"/"picada" al final de la etiqueta (sin paréntesis) si corresponde.
+  // Las unidades con nombre propio (stracciatella, etc.) NO llevan sufijo.
+  function withPicado(key,label){
     if(!label) return label;
-    const m=meta[sid];
-    if(!sidHasPicado(sid) || !m || m.showPicado===false) return label;
+    const u=UNIT[key], m=meta[key];
+    if(!u || u.custom) return label;
+    if(!hasPlainPicado(u.sid) || !m || m.showPicado===false) return label;
     if(/picad[oa]s?\b/i.test(label)) return label; // ya lo dice el nombre (ej. "Carne picada")
-    return label+' '+picadoWordFor(sid);
+    return label+' '+picadoWordFor(u.sid);
   }
 
   // etiquetas finales, en orden: base, muzza, resto
   function listLabels(){
     const out=[];
-    if(curBase!=='none' && baseInc && (baseLabel||'').trim()) out.push(baseLabel.trim());
+    const hasBase = curBase!=='none' || (splitBase && curBase2!=='none');
+    if(hasBase && baseInc && (baseLabel||'').trim()) out.push(baseLabel.trim());
     if(hasMuzza && meta['muzzarella'] && meta['muzzarella'].include) out.push(withPicado('muzzarella',(meta['muzzarella'].label||'Muzzarella').trim()));
-    order.forEach(s=>{ if(meta[s] && meta[s].include && (meta[s].label||'').trim()) out.push(withPicado(s,meta[s].label.trim())); });
+    order.forEach(k=>{ if(meta[k] && meta[k].include && (meta[k].label||'').trim()) out.push(withPicado(k,meta[k].label.trim())); });
     drizOrder.forEach(id=>{ const m=meta['d:'+id]; if(m && m.include && (m.label||'').trim()) out.push(m.label.trim()); });
     return out;
   }
 
   // ---- UI de la lista ----
-  function row(kind, sid){
+  function row(kind, key){
     const it=document.createElement('div'); it.className='exp-item'+(kind!=='top'?' pin':'');
     const inc=document.createElement('input'); inc.type='checkbox'; inc.className='inc';
     const nm=document.createElement('input'); nm.className='nm'; nm.type='text'; nm.maxLength=40;
     if(kind==='base'){ inc.checked=baseInc; nm.value=baseLabel; nm.oninput=()=>{baseLabel=nm.value; draw();}; inc.onchange=()=>{baseInc=inc.checked; draw();}; }
-    else { const m=meta[sid]; inc.checked=m.include; nm.value=m.label; nm.oninput=()=>{m.label=nm.value; draw();}; inc.onchange=()=>{m.include=inc.checked; draw();}; }
+    else { const m=meta[key]; inc.checked=m.include; nm.value=m.label; nm.oninput=()=>{m.label=nm.value; draw();}; inc.onchange=()=>{m.include=inc.checked; draw();}; }
     const tag=document.createElement('span'); tag.className='tagp';
     tag.textContent = kind==='base'?'Base' : kind==='muzza'?'Queso' : '';
     it.appendChild(inc); it.appendChild(nm);
     if(tag.textContent) it.appendChild(tag);
-    if(kind!=='base' && sidHasPicado(sid)){
-      const m=meta[sid];
+    const u=UNIT[key];
+    if(kind!=='base' && u && !u.custom && hasPlainPicado(u.sid)){
+      const m=meta[key]; const sid=u.sid;
       const pic=document.createElement('button'); pic.type='button'; pic.className='picbtn'+(m.showPicado!==false?' on':'');
       pic.title=m.showPicado!==false?`Ocultar "${picadoWordFor(sid)}"`:`Mostrar "${picadoWordFor(sid)}"`;
       pic.textContent='🔪';
@@ -1604,10 +1652,10 @@ document.getElementById('fileLib').addEventListener('change',function(){
       it.appendChild(pic);
     }
     if(kind==='top'){
-      const i=order.indexOf(sid);
-      const up=document.createElement('button'); up.className='mv'; up.textContent='â–²'; up.title='Subir';
+      const i=order.indexOf(key);
+      const up=document.createElement('button'); up.className='mv'; up.textContent='▲'; up.title='Subir';
       up.disabled=(i<=0); up.onclick=()=>{ if(i>0){ [order[i-1],order[i]]=[order[i],order[i-1]]; renderList(); draw(); } };
-      const dn=document.createElement('button'); dn.className='mv'; dn.textContent='â–¼'; dn.title='Bajar';
+      const dn=document.createElement('button'); dn.className='mv'; dn.textContent='▼'; dn.title='Bajar';
       dn.disabled=(i>=order.length-1); dn.onclick=()=>{ if(i<order.length-1){ [order[i+1],order[i]]=[order[i],order[i+1]]; renderList(); draw(); } };
       it.appendChild(up); it.appendChild(dn);
     }
@@ -1627,9 +1675,10 @@ document.getElementById('fileLib').addEventListener('change',function(){
   }
   function renderList(){
     listEl.innerHTML='';
-    const any = (curBase!=='none') || hasMuzza || order.length || drizOrder.length;
+    const hasBase = curBase!=='none' || (splitBase && curBase2!=='none');
+    const any = hasBase || hasMuzza || order.length || drizOrder.length;
     if(!any){ const e=document.createElement('div'); e.className='exp-empty'; e.textContent='Agregá ingredientes a la pizza para armar la lista.'; listEl.appendChild(e); return; }
-    if(curBase!=='none') listEl.appendChild(row('base'));
+    if(hasBase) listEl.appendChild(row('base'));
     if(hasMuzza) listEl.appendChild(row('muzza','muzzarella'));
     order.forEach(s=>listEl.appendChild(row('top',s)));
     drizOrder.forEach(id=>listEl.appendChild(rowDriz(id)));
@@ -1652,7 +1701,7 @@ document.getElementById('fileLib').addEventListener('change',function(){
     items.slice().sort((a,b)=>a.z-b.z).forEach(it=>{
       const s=stateSprite(it); const img=imgFor(s.uri);
       const w=s.w*PX*scaleFor(it.sid)*fmtScale()*it.scl*(dW/REF), h=s.h*PX*scaleFor(it.sid)*fmtScale()*it.scl*(dW/REF);
-      c.save(); c.globalAlpha=opacityOf(it.sid); c.translate(ox+it.fx*dW,oy+it.fy*dH); c.rotate(it.rot*Math.PI/180); c.scale(it.flip?-1:1,1);
+      c.save(); c.globalAlpha=opacityOf(it); c.translate(ox+it.fx*dW,oy+it.fy*dH); c.rotate(it.rot*Math.PI/180); c.scale(it.flip?-1:1,1);
       try{ c.drawImage(img,-w/2,-h/2,w,h); }catch(e){}
       c.restore();
     });
@@ -1849,7 +1898,7 @@ document.getElementById('fileLib').addEventListener('change',function(){
   function open(){
     nameInput.value=pizzaNameEl?pizzaNameEl.value:'';
     baseLabel=''; rebuild();
-    if(baseLabel==='') baseLabel=BASE_LABEL[curBase]||'';
+    if(baseLabel==='') baseLabel=baseFullLabel();
     renderList(); draw();
     mask.classList.add('on');
   }
@@ -1984,7 +2033,7 @@ document.getElementById('fileLib').addEventListener('change',function(){
     const name=(document.getElementById('pizzaName').value||'').trim()||'Pizza';
     const its=items.slice().sort((a,b)=>a.z-b.z).map(it=>({sid:it.sid, fx:+it.fx.toFixed(4), fy:+it.fy.toFixed(4), rot:+(+it.rot).toFixed(2), scl:it.scl, flip:!!it.flip, st:it.st}));
     let thumb=''; try{ thumb=window.__pizzaSquare(240).toDataURL('image/webp', 0.82); }catch(e){ try{ thumb=window.__pizzaSquare(240).toDataURL('image/png'); }catch(e){} }
-    return {schema:1, id:currentPizzaId||'', name, base:curBase, fmt:curFmt, items:its, drizzles:activeDrizzles.slice(), thumb};
+    return {schema:1, id:currentPizzaId||'', name, base:curBase, base2:(splitBase?curBase2:''), split:splitBase, fmt:curFmt, items:its, drizzles:activeDrizzles.slice(), thumb};
   }
   async function savePizza(){
     if(!items.length){ toast('La pizza está vacía'); return; }
@@ -1997,7 +2046,13 @@ document.getElementById('fileLib').addEventListener('change',function(){
     if(!p){ toast('No pude abrir la pizza'); return; }
     snapshot();
     items.length=0; layer.innerHTML=''; select(null);
+    splitBase = !!p.split;
+    const _btnSp = document.getElementById('btnBaseSplit');
+    const _sel2 = document.getElementById('baseSel2');
+    if(_btnSp) _btnSp.classList.toggle('sel', splitBase);
+    if(_sel2) _sel2.style.display = splitBase ? '' : 'none';
     setBase(p.base||'tomate');
+    setBase2(p.base2||'none');
     setFmt(p.fmt||'napolitana', true);
     document.getElementById('pizzaName').value=p.name||'';
     zTop=0;
@@ -2089,7 +2144,7 @@ document.getElementById('fileLib').addEventListener('change',function(){
     const av=statesOf(sid); if(!av.includes(placeState)) placeState='entero';
     select(null); markActiveChip(); updateLoadBar();
     stage.classList.add('is-placing');
-    if(COARSE){ document.body.classList.add('tray-min'); const tt=document.getElementById('trayToggle'); if(tt) tt.textContent='â–´'; }
+    if(COARSE){ document.body.classList.add('tray-min'); const tt=document.getElementById('trayToggle'); if(tt) tt.textContent='▴'; }
     toast('Cargado: '+spriteById[sid].name+' — tocá la pizza');
   };
   window.unloadIngredient=function(){
